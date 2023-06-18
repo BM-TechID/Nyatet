@@ -1,0 +1,192 @@
+---
+#title: "21102121_Tugas1_ARW"
+#author: "Mansur Julianto"
+#date: "2022-10-31"
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+geometry: "left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm"
+fontsize: 11pt
+header-includes:
+  - \usepackage{float}
+  - \usepackage{sectsty}
+  - \usepackage{paralist}
+  - \usepackage{setspace}\spacing{1.5}
+  - \usepackage{fancyhdr}
+  - \usepackage{lastpage}
+  - \usepackage{dcolumn}
+  - \usepackage{natbib}\bibliographystyle{agsm}
+  - \usepackage[nottoc, numbib]{tocbibind}
+#bibliography: bibliography.bib
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(tinytex.verbose = TRUE)
+```
+
+
+\allsectionsfont{\centering}
+\subsectionfont{\raggedright}
+\subsubsectionfont{\raggedright}
+
+\pagenumbering{gobble}
+
+\begin{centering}
+
+\Large
+{\bf Laporan Praktikum \\  Metode Statistika Probabilitas}
+
+\vspace{2cm}
+
+```{r uni_logo, echo=F, out.width="30%"}
+knitr::include_graphics("../Arsip/logo_ittp.png")
+```
+
+\vspace{1cm}
+
+\Large
+
+\doublespacing
+{\bf TOPIK : Tugas 1}
+
+\vspace{1 cm}
+
+\normalsize
+\singlespacing
+Oleh
+
+\vspace{0.5 cm}
+
+\Large
+
+{\bf NAMA: MANSUR JULIANTO  \\ NIM: 21102121 }
+
+\vspace{1.5 cm}
+
+\Large
+{\bf PROGRAM STUDI S1 INFORMATIKA \\ FAKULTAS INFORMATIKA \\ INSTITUT TEKNOLOGI TELKOM PURWOKERTO \\ 2023}
+
+\vspace{1.5 cm}
+
+\end{centering}
+
+\newpage
+
+# TUGAS 1 STATISTIKA PROBABILITAS
+
+
+## Analisis Statistika Deskriptif
+Pada bagian ini, Anda menggunakan library readxl untuk membaca file excel yang berisi data tinggi badan. Fungsi read_excel() digunakan untuk membaca file excel, dan Anda menyimpan datanya dalam variabel data_tb.
+
+
+```{r}
+library(readxl)
+data_tb <- read_excel("../Data/Data_Tinggi_Badan.xlsx", col_names = TRUE)
+```
+
+
+
+
+### Tampilkan Data
+Menghitung beberapa ukuran pusat data, yaitu mean (rata-rata), median (nilai tengah), dan mode (nilai yang paling sering muncul). Anda menggunakan fungsi mean() untuk menghitung mean dari kolom "Tinggi Badan" dalam data data_tb. Fungsi median() digunakan untuk menghitung median. Untuk menghitung mode, Anda menggunakan fungsi table() untuk menghitung frekuensi munculnya setiap nilai, kemudian menggunakan fungsi names() untuk mendapatkan nilai yang memiliki frekuensi tertinggi.
+
+```{r}
+head(data_tb)
+```
+
+```{r}
+tail(data_tb)
+```
+
+```{r}
+dim(data_tb)
+```
+
+```{r}
+names(data_tb)
+```
+
+```{r}
+str(data_tb)
+```
+
+```{r}
+summary(data_tb)
+```
+
+
+
+### Ukuran Pusat Data
+Menghitung beberapa ukuran pusat data, yaitu mean (rata-rata), median (nilai tengah), dan mode (nilai yang paling sering muncul). Anda menggunakan fungsi mean() untuk menghitung mean dari kolom "Tinggi Badan" dalam data data_tb. Fungsi median() digunakan untuk menghitung median. Untuk menghitung mode, Anda menggunakan fungsi table() untuk menghitung frekuensi munculnya setiap nilai, kemudian menggunakan fungsi names() untuk mendapatkan nilai yang memiliki frekuensi tertinggi.
+
+```{r}
+mean_tb <- mean(data_tb$`Tinggi Badan`)
+median_tb <- median(data_tb$`Tinggi Badan`)
+mode_tb <- names(table(data_tb$`Tinggi Badan`))[table(data_tb$`Tinggi Badan`)==max(table(data_tb$`Tinggi Badan`))]
+
+cat("Ukuran Pusat Data:\n")
+cat("Mean:", mean_tb, "\n")
+cat("Median:", median_tb, "\n")
+cat("Mode:", mode_tb, "\n")
+```
+
+
+
+### Ukuran Penyebaran Data
+Menghitung beberapa ukuran penyebaran data, yaitu range (rentang), minimum, maksimum, standar deviasi, variansi, quartile pertama (Q1), quartile ketiga (Q3), dan rentang interquartile (IQR). Anda menggunakan fungsi range() untuk menghitung rentang data. Fungsi min() dan max() digunakan untuk menghitung nilai minimum dan maksimum. Fungsi sd() digunakan untuk menghitung standar deviasi, sedangkan fungsi var() digunakan untuk menghitung variansi. Fungsi quantile() digunakan untuk menghitung quartile pertama (Q1) dan quartile ketiga (Q3). Fungsi IQR() digunakan untuk menghitung rentang interquartile (IQR).
+
+```{r}
+range_tb <- range(data_tb$`Tinggi Badan`)
+min_tb <- min(data_tb$`Tinggi Badan`)
+max_tb <- max(data_tb$`Tinggi Badan`)
+sd_tb <- sd(data_tb$`Tinggi Badan`)
+var_tb <- var(data_tb$`Tinggi Badan`)
+q1_tb <- quantile(data_tb$`Tinggi Badan`, 0.25)
+q3_tb <- quantile(data_tb$`Tinggi Badan`, 0.75)
+iqr_tb <- IQR(data_tb$`Tinggi Badan`)
+
+cat("Ukuran Penyebaran Data:\n")
+cat("Range:", range_tb, "\n")
+cat("Minimum:", min_tb, "\n")
+cat("Maximum:", max_tb, "\n")
+cat("Standard Deviation:", sd_tb, "\n")
+cat("Variance:", var_tb, "\n")
+cat("Q1 (25th percentile):", q1_tb, "\n")
+cat("Q3 (75th percentile):", q3_tb, "\n")
+cat("IQR:", iqr_tb, "\n")
+```
+
+
+
+### Ukuran Skewness dan Kurtosis
+Disinoi menggunakan library psych untuk menghitung ukuran skewness dan kurtosis dari data. Fungsi skew() digunakan untuk menghitung skewness, sedangkan fungsi kurtosi() digunakan untuk menghitung kurtosis.
+
+```{r}
+library(psych)
+skewness_tb <- skew(data_tb$`Tinggi Badan`)
+kurtosis_tb <- kurtosi(data_tb$`Tinggi Badan`)
+
+cat("Ukuran Skewness dan Kurtosis:\n")
+cat("Skewness:", skewness_tb, "\n")
+cat("Kurtosis:", kurtosis_tb, "\n")
+```
+
+
+
+## Histogram Tinggi Badan
+Pada fungsi hist() untuk membuat histogram dari kolom "Tinggi Badan" dalam data data_tb. Parameter main digunakan untuk memberikan judul pada histogram, sedangkan parameter xlab dan ylab digunakan untuk memberikan label pada sumbu x dan sumbu y.
+```{r}
+hist(data_tb$`Tinggi Badan`, main = "Histogram Tinggi Badan", xlab = "Tinggi Badan", ylab = "Frequency")
+```
+
+
+
+
+## Boxplot Tinggi Badan
+Terakhir menggunakan fungsi boxplot() untuk membuat boxplot dari kolom "Tinggi Badan" dalam data data_tb. Parameter main digunakan untuk memberikan judul pada boxplot.
+```{r}
+boxplot(data_tb$`Tinggi Badan`, main = "Boxplot Tinggi Badan")
+```
